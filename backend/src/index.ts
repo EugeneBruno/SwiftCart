@@ -3,6 +3,8 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoutes from './routes/auth.routes';
 import protectedRoutes from './routes/protected.routes';
+import productRoutes from './routes/product.routes';
+import orderRoutes from './routes/order.routes';
 
 dotenv.config();
 
@@ -16,6 +18,9 @@ app.use(express.json());
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api', protectedRoutes);
+app.use('/api/products', productRoutes);
+app.use('/api/orders', orderRoutes);
+
 
 // Root route
 app.get('/', (_req, res) => res.send('SwiftCart Backend Running'));
