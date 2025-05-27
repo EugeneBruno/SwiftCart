@@ -2,37 +2,17 @@
 const content = document.getElementById('content');
 const logoutBtn = document.getElementById('logout');
 const token = localStorage.getItem('token');
+const isAdmin = localStorage.getItem('isAdmin') === 'true';
 
-if (!token) {
-  window.location.href = 'login.html';
-}
-
-fetch('http://localhost:8000/api/protected', {
-  method: 'GET',
-  headers: {
-    Authorization: `Bearer ${token}`,
-  },
-})
-  .then((res) => res.json())
-  .then((data) => {
-    if (data.user) {
-      content.textContent = `You are logged in as user ID: ${data.user.id}`;
-    } else {
-      throw new Error('Not authorized');
-    }
-  })
-  .catch((err) => {
-    console.error(err);
-    localStorage.removeItem('token');
-    window.location.href = 'login.html';
-  });
-
-logoutBtn.addEventListener('click', () => {
-  localStorage.removeItem('token');
-  window.location.href = 'login.html';
+window.addEventListener('DOMContentLoaded', () => {
+  const username = localStorage.getItem('username');
+  const welcomeEl = document.getElementById('welcomeText');
+  if (username && welcomeEl) {
+    welcomeEl.textContent = `Welcome, ${username}`;
+  }
 });
 
-// dashboard.js
+
 document.getElementById('goToProducts').addEventListener('click', () => {
   window.location.href = 'products.html';
 });
@@ -40,3 +20,15 @@ document.getElementById('goToProducts').addEventListener('click', () => {
 document.getElementById('goToOrders').addEventListener('click', () => {
   window.location.href = 'orders.html';
 });
+
+document.getElementById('logout').addEventListener('click', () => {
+  localStorage.clear();
+  window.location.href = 'login.html';
+});
+
+if (isAdmin) {
+  document.getElementById('goToAdmin').style.display = 'inline-block';
+  document.getElementById('goToAdmin').addEventListener('click', () => {
+    window.location.href = 'admin.html';
+  });
+}

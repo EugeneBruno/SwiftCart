@@ -1,29 +1,67 @@
 // frontend/register.js
 const form = document.getElementById('registerForm');
-const message = document.getElementById('message');
+const password = document.getElementById('password');
+const confirmPassword = document.getElementById('confirmPassword');
+const matchMsg = document.getElementById('passwordMatchMessage');
+
+confirmPassword.addEventListener('input', () => {
+  if (password.value !== confirmPassword.value) {
+    matchMsg.textContent = "Passwords do not match";
+  } else {
+    matchMsg.textContent = "";
+  }
+});
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
 
-  const email = document.getElementById('email').value.trim();
-  const password = document.getElementById('password').value.trim();
+  if (password.value !== confirmPassword.value) {
+    alert('Passwords must match');
+    return;
+  }
+
+  if (!document.getElementById('terms').checked) {
+    alert('You must accept the Terms and Conditions');
+    return;
+  }
+
+  const userData = {
+    firstName: document.getElementById('firstName').value,
+    lastName: document.getElementById('lastName').value,
+    username: document.getElementById('username').value,
+    phone: document.getElementById('phone').value,
+    address: document.getElementById('address').value,
+    email: document.getElementById('email').value,
+    password: password.value
+  };
 
   try {
     const res = await fetch('http://localhost:8000/api/auth/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify(userData)
     });
 
     const data = await res.json();
-
     if (res.ok) {
-      localStorage.setItem('registeredEmail', email); // Save for OTP page
+      alert('Registration successful! Please check your email for the OTP.');
+      localStorage.setItem('email', userData.email); // Optional for verify page
       window.location.href = 'verify.html';
     } else {
-      message.textContent = data.message || 'Registration failed.';
+      alert(data.message || 'Registration failed.');
     }
   } catch (err) {
-    message.textContent = 'Server error. Please try again later.';
+    alert('Network error: ' + err.message);
   }
 });
+
+function toggleVisibility(inputId, toggleIcon) {
+  const input = document.getElementById(inputId);
+  if (input.type === 'password') {
+    input.type = 'text';
+    toggleIcon.textContent = '🙈';
+  } else {
+    input.type = 'password';
+    toggleIcon.textContent = '🙉';
+  }
+}

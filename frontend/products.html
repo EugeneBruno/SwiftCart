@@ -2,19 +2,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Products | SwiftCart</title>
-  <link rel="stylesheet" href="css/styles.css">
+  <meta charset="UTF-8" />
+  <title>Browse Products | SwiftCart</title>
+  <link rel="stylesheet" href="css/unified.css" />
 </head>
 <body>
   <div class="container">
-    <h2>Product Listings</h2>
-    <div id="productsContainer" class="product-grid">
-      <!-- Products will be inserted here -->
-    </div>
-  </div><br><br>
-  <button onclick="window.location.href='orders.html'">🧾 My Orders</button>
+    <div class="products-header sticky-header">
+      <h2>Browse Products</h2>
 
-  <script src="products.js"></script>
+      <div class="toggle-container">
+        <label class="switch">
+          <input type="checkbox" id="darkModeToggle" />
+          <span class="slider"></span>
+        </label>
+      </div>
+
+      <input type="text" id="searchInput" placeholder="Search products..." oninput="handleSearch()" />
+
+      <div style="display: flex; gap: 10px; margin-top: 10px;">
+        <button id="myOrdersBtn">My Orders</button>
+        <button id="HomeBtn">← Back to Dashboard</button>
+      </div>
+    </div>
+
+    <div id="productsContainer">Loading...</div>
+  </div>
+
+  <script type="module" src="products.js"></script>
 </body>
 </html>

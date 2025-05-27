@@ -1,22 +1,64 @@
-<!-- frontend/register.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Register | SwiftCart</title>
-  <link rel="stylesheet" href="css/styles.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="css/styles.css" />
 </head>
-<body>
-  <div class="container">
-    <h2>Register</h2>
+<body class="gradient-bg">
+  <div class="form-container">
+    <h2>Create Your Account</h2>
     <form id="registerForm">
-      <input type="email" id="email" placeholder="Email" required />
-      <input type="password" id="password" placeholder="Password" required />
+      <div class="form-group">
+        <input type="text" id="firstName" placeholder="First Name" required />
+        <input type="text" id="lastName" placeholder="Surname" required />
+      </div>
+      <div class="form-group">
+        <input type="text" id="username" placeholder="Username" required />
+        <input type="tel" id="phone" placeholder="Phone Number" required />
+      </div>
+      <input type="text" id="address" placeholder="Shipping/Billing Address" required />
+      <input type="email" id="email" placeholder="Email Address" required />
+
+      <div class="input-icon">
+        <input type="password" id="password" placeholder="Password" required />
+        <span class="toggle-password" onclick="toggleVisibility('password', this)">🙈</span>
+      </div>
+
+      <div class="input-icon">
+        <input type="password" id="confirmPassword" placeholder="Confirm Password" required />
+        <span class="toggle-password" onclick="toggleVisibility('confirmPassword', this)">🙈</span>
+      </div>
+
+
+      <small id="passwordMatchMessage" style="color: red;"></small>
+
+      <label class="checkbox">
+        <input type="checkbox" id="terms" required />
+        I agree to the Terms and Conditions
+      </label>
+
       <button type="submit">Register</button>
+      <p>Already have an account? <a href="login.html">Login</a></p>
     </form>
-    <p id="message"></p>
   </div>
 
+  <script>
+    function togglePassword(id) {
+      const input = document.getElementById(id);
+      input.type = input.type === 'password' ? 'text' : 'password';
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const storedEmail = localStorage.getItem('registeredEmail');
+      if (storedEmail) {
+        const emailField = document.getElementById('email');
+        emailField.value = storedEmail;
+        localStorage.removeItem('registeredEmail');
+      }
+    });
+  </script>
   <script src="register.js"></script>
 </body>
 </html>

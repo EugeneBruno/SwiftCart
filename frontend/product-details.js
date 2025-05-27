@@ -1,15 +1,16 @@
+import { BASE_URL } from "./config.js";
 const productId = localStorage.getItem('productId');
 const container = document.getElementById('productDetails');
 
 if (!productId) {
   container.innerHTML = '<p>Product ID missing. Go back to product list.</p>';
 } else {
-  fetch(`http://localhost:8000/api/products/${productId}`)
+  fetch(`${BASE_URL}/api/products/${productId}`)
     .then(res => res.json())
     .then(data => {
       if (data.product) {
         const p = data.product;
-        container.innerHTML = `
+        container.innerHTML = container.innerHTML = `
           <img src="${p.imageUrl || 'https://via.placeholder.com/200'}" alt="${p.name}" />
           <h3>${p.name}</h3>
           <p><strong>₦${p.price.toLocaleString()}</strong></p>
@@ -39,12 +40,14 @@ function addToCart(id, name, price) {
   localStorage.setItem('cart', JSON.stringify(cart));
   alert(`${name} added to cart!`);
 }
+window.addToCart = addToCart;
 
 function goToCart() {
   window.location.href = 'cart.html';
 }
-
+window.goToCart = goToCart;
 
 function goBack() {
   window.location.href = 'products.html';
 }
+window.goBack = goBack;

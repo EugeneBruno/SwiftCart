@@ -1,24 +1,26 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
+import prisma from '../config/prisma';
 
-interface JwtPayload {
-  userId: number;
-}
-
-export const authenticate = (req: Request, res: Response, next: NextFunction) => {
+export const authenticate = async (req: Request, res: Response, next: NextFunction) => {
   const authHeader = req.headers.authorization;
+  const token = authHeader?.split(' ')[1];
 
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ message: 'Authorization token missing.' });
+  if (!token) {
+    return res.status(401).json({ message: 'Missing token' });
   }
 
-  const token = authHeader.split(' ')[1];
-
   try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET || 'secretkey') as JwtPayload;
-    req.user = { id: decoded.userId };
+    const decoded: any = jwt.verify(token, process.env.JWT_SECRET!);
+    const user = await prisma.user.findUnique({ where: { id: decoded.userId } });
+
+    if (!user) {
+      return res.status(401).json({ message: 'User not found' });
+    }
+
+    req.user = user; // ✅ Full user object (including isAdmin)
     next();
   } catch (error) {
-    return res.status(403).json({ message: 'Invalid or expired token.' });
+    return res.status(403).json({ message: 'Invalid token' });
   }
 };

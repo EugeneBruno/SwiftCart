@@ -2,20 +2,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Verify OTP | SwiftCart</title>
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/form.css" />
 </head>
 <body>
-  <div class="container">
-    <h2>Verify Email</h2>
+  <div class="form-container">
     <form id="verifyForm">
-      <input type="text" id="otp" placeholder="Enter OTP" required />
-      <button type="submit">Verify</button>
+      <h2>Email Verification 🔐</h2>
+      <p>Please enter the OTP sent to your email.</p>
+
+      <input type="text" id="otp" placeholder="Enter 6-digit OTP" required maxlength="6" />
+
+      <button type="submit">Verify OTP</button>
+      <p id="message" class="error-text"></p>
+
+      <p class="footer-text">Didn't get an OTP? <a href="#" id="resendBtn">Resend</a></p>
     </form>
-    <p id="message"></p>
   </div>
 
   <script src="verify.js"></script>
 </body>
 </html>
+
