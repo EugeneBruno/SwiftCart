@@ -2,34 +2,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Admin Dashboard | SwiftCart</title>
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/unified.css" />
 </head>
 <body>
-    <div class="container">
-        <h2>Admin Panel🛠️</h2>
-        <div class="toggle-container">
-            <label class="switch">
-                <input type="checkbox" id="darkModeToggle" />
-                <span class="slider round"></span>
-            </label>
-        </div>
-        <h3>Add New Product</h3>
-        <form id="productForm">
-            <input type="text" id="name" placeholder="Product name" required />
-            <input type="number" id="price" placeholder="Price (NGN)" required />
-            <input type="text" id="category" placeholder="Category (e.g., Electronics)" required />
-            <input type="text" id="imageUrl" placeholder="Image URL (optional)" />
-            <textarea id="description" placeholder="Description" required></textarea>
-            <button type="submit">Add Product</button>
-        </form>
-
-
-        <h3>Existing Products🗂</h3>
-        <div id="productList">Loading...</div>
+  <div class="container">
+    <div class="top-bar">
+      <button class="back-btn" onclick="window.location.href='dashboard.html'">← Back to Dashboard</button>
+      <label class="switch">
+        <input type="checkbox" id="darkModeToggle">
+        <span class="slider"></span>
+      </label>
     </div>
 
-  <script src="admin.js" type="module"></script>
+    <h2>Admin Dashboard 🛠️</h2>
+
+    <form id="productForm" class="form-box">
+      <input type="text" id="name" placeholder="Product Name" required />
+      <input type="number" id="price" placeholder="Price (₦)" required />
+      <input type="text" id="category" placeholder="Category (e.g. Electronics)" required />
+      <input type="text" id="imageUrl" placeholder="Image URL" required />
+      <textarea id="description" placeholder="Product Description" required></textarea>
+      <button type="submit">Add Product</button>
+    </form>
+
+    <hr/>
+
+    <h3>All Products</h3>
+    <div id="productList" class="product-grid"></div>
+  </div>
+
+  <script type="module" src="admin.js"></script>
 </body>
 </html>

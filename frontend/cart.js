@@ -103,6 +103,11 @@ function goToProducts() {
 }
 window.goToProducts = goToProducts;
 
+function goToDashboard() {
+  window.location.href = 'dashboard.html';
+}
+window.goToDashboard = goToDashboard;
+
 const toggle = document.getElementById('darkModeToggle');
 if (toggle) {
   toggle.addEventListener('change', () => {

@@ -1,10 +1,14 @@
-import { BASE_URL } from "./config.js";
+import { BASE_URL } from './config.js';
+
+const token = localStorage.getItem('token');
+if (!token) {
+  alert('You must be logged in.');
+  window.location.href = 'login.html';
+}
 
 const form = document.getElementById('productForm');
 const productList = document.getElementById('productList');
-const token = localStorage.getItem('token');
 const toggle = document.getElementById('darkModeToggle');
-
 
 if (toggle) {
   toggle.addEventListener('change', () => {
@@ -12,20 +16,15 @@ if (toggle) {
     localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
   });
 
-  // Load saved theme
   if (localStorage.getItem('theme') === 'dark') {
     document.body.classList.add('dark');
     toggle.checked = true;
   }
 }
 
-if (!token) {
-  alert('You must be logged in.');
-  window.location.href = 'login.html';
-}
-
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
+
   const name = document.getElementById('name').value.trim();
   const price = parseFloat(document.getElementById('price').value);
   const category = document.getElementById('category').value.trim();
@@ -37,14 +36,14 @@ form.addEventListener('submit', async (e) => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({ name, price, category, imageUrl, description })
     });
 
     const data = await res.json();
     if (res.ok) {
-      alert('Product added!');
+      alert('✅ Product added!');
       form.reset();
       fetchProducts();
     } else {
@@ -55,7 +54,6 @@ form.addEventListener('submit', async (e) => {
   }
 });
 
-
 async function fetchProducts() {
   try {
     const res = await fetch(`${BASE_URL}/api/products`);
@@ -64,19 +62,21 @@ async function fetchProducts() {
     productList.innerHTML = '';
     data.products.forEach(product => {
       const div = document.createElement('div');
+      div.className = 'product-card';
       div.innerHTML = `
-        <p><strong>${product.name}</strong> - ₦${product.price}</p>
+        <img src="${product.imageUrl}" alt="${product.name}" />
+        <h4>${product.name}</h4>
+        <p>₦${product.price.toLocaleString()}</p>
         <button onclick="deleteProduct(${product.id})">Delete</button>
-        <hr/>
       `;
       productList.appendChild(div);
     });
   } catch (err) {
-    productList.innerHTML = 'Error loading products.';
+    productList.innerHTML = '<p>Error loading products.</p>';
   }
 }
 
-async function deleteProduct(id) {
+window.deleteProduct = async function (id) {
   if (!confirm('Are you sure you want to delete this product?')) return;
 
   try {
@@ -95,6 +95,6 @@ async function deleteProduct(id) {
   } catch (err) {
     alert('Error deleting product.');
   }
-}
+};
 
 fetchProducts();
