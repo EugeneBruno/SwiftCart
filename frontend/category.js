@@ -1,57 +1,62 @@
-import { BASE_URL } from "./config.js";
-const categoryName = localStorage.getItem('selectedCategory');
+// frontend/category.js
+import { BASE_URL } from './config.js';
+
 const title = document.getElementById('categoryTitle');
 const container = document.getElementById('categoryProducts');
+const toggle = document.getElementById('darkModeToggle');
+
+if (toggle) {
+  toggle.addEventListener('change', () => {
+    document.body.classList.toggle('dark');
+    localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+  });
+
+  if (localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark');
+    toggle.checked = true;
+  }
+}
+
+const categoryName = localStorage.getItem('selectedCategory');
 
 if (!categoryName) {
-  title.textContent = 'Category not selected';
-  container.innerHTML = '<p>Go back and select a category.</p>';
+  title.textContent = 'No Category Selected';
+  container.innerHTML = '<p>Go back and choose a category.</p>';
 } else {
   title.textContent = categoryName;
 
   fetch(`${BASE_URL}/api/products`)
     .then(res => res.json())
     .then(data => {
-      const filtered = (data.products || []).filter(p => p.category === categoryName);
+      const filtered = (data.products || []).filter(
+        p => (p.category || '').toLowerCase() === categoryName.toLowerCase()
+      );
 
       if (filtered.length === 0) {
-        container.innerHTML = '<p>No products in this category.</p>';
-      } else {
-        renderCategoryProducts(filtered);
+        container.innerHTML = '<p>No products found in this category.</p>';
+        return;
       }
+
+      container.innerHTML = '';
+      filtered.forEach(product => {
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.innerHTML = `
+          <img src="${product.imageUrl || 'https://via.placeholder.com/150'}" alt="${product.name}" />
+          <h4>${product.name}</h4>
+          <p>₦${product.price.toLocaleString()}</p>
+          <button onclick="viewProduct(${product.id})">View</button>
+        `;
+        container.appendChild(card);
+      });
     })
     .catch(err => {
-      console.error(err);
+      console.error('Error loading category:', err);
       container.innerHTML = '<p>Error loading products.</p>';
     });
 }
 
-function renderCategoryProducts(products) {
-  container.innerHTML = '';
-  const grid = document.createElement('div');
-  grid.className = 'product-list';
-
-  products.forEach(p => {
-    const card = document.createElement('div');
-    card.className = 'product-card';
-    card.innerHTML = `
-      <img src="${p.imageUrl || 'https://via.placeholder.com/150'}" alt="${p.name}" />
-      <h4>${p.name}</h4>
-      <p>₦${p.price.toLocaleString()}</p>
-      <button onclick="viewProduct(${p.id})">View</button>
-    `;
-    grid.appendChild(card);
-  });
-
-  container.appendChild(grid);
-}
-
-function viewProduct(productId) {
+window.viewProduct = function (productId) {
   localStorage.setItem('productId', productId);
   window.location.href = 'product-details.html';
-}
-window.viewProduct = viewProduct;
-
-function goBack() {
-  window.location.href = 'products.html';
-}
+};

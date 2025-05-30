@@ -1,19 +1,24 @@
+<!-- frontend/category.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Category | SwiftCart</title>
-  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/unified.css" />
 </head>
 <body>
   <div class="container">
-    <div class="sticky-header">
-        <button onclick="goBack()">← Back to All Products</button>
+    <div class="top-bar">
+      <button class="back-btn" onclick="window.location.href='products.html'">← Back to Products</button>
+      <label class="switch">
+        <input type="checkbox" id="darkModeToggle">
+        <span class="slider"></span>
+      </label>
     </div>
 
     <h2 id="categoryTitle">Category</h2>
-    
-    <div id="categoryProducts">Loading...</div>
+    <div id="categoryProducts" class="product-row">Loading...</div>
   </div>
 
   <script type="module" src="category.js"></script>

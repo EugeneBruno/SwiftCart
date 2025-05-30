@@ -6,6 +6,13 @@ const ordersBtn = document.getElementById('myOrdersBtn');
 const homeBtn = document.getElementById('HomeBtn');
 const toggle = document.getElementById('darkModeToggle');
 
+let debounceTimer;
+searchInput.addEventListener('input', () => {
+  clearTimeout(debounceTimer);
+  debounceTimer = setTimeout(handleSearch, 300);
+});
+
+
 let allProducts = [];
 
 if (!localStorage.getItem('token')) {
@@ -81,7 +88,12 @@ function renderProductsGrouped(products) {
     if (grouped[category].length > 5) {
       const seeMore = document.createElement('div');
       seeMore.className = 'product-card see-more';
-      seeMore.innerHTML = `<div onclick="goToCategory('${category}')"><p>See more →</p></div>`;
+      seeMore.innerHTML = `
+        <div class="see-more-inner">
+          <p>See more →</p>
+        </div>
+      `;
+      seeMore.onclick = () => goToCategory(category);
       grid.appendChild(seeMore);
     }
 
@@ -103,10 +115,18 @@ function goToCategory(categoryName) {
 window.goToCategory = goToCategory;
 
 function handleSearch() {
-  const query = searchInput.value.toLowerCase();
+  const query = searchInput.value.toLowerCase().trim();
+
+  if (!query) {
+    renderProductsGrouped(allProducts);
+    return;
+  }
+
   const filtered = allProducts.filter(p =>
-    p.name.toLowerCase().includes(query)
+    p.name.toLowerCase().includes(query) ||
+    p.category.toLowerCase().includes(query)
   );
+
   renderProductsGrouped(filtered);
 }
 
