@@ -1,7 +1,11 @@
+import { BASE_URL } from "./config.js";
+
 const form = document.getElementById('productForm');
 const productList = document.getElementById('productList');
 const token = localStorage.getItem('token');
 const toggle = document.getElementById('darkModeToggle');
+
+
 if (toggle) {
   toggle.addEventListener('change', () => {
     document.body.classList.toggle('dark');
@@ -29,7 +33,7 @@ form.addEventListener('submit', async (e) => {
   const description = document.getElementById('description').value.trim();
 
   try {
-    const res = await fetch('http://localhost:8000/api/admin/products', {
+    const res = await fetch(`${BASE_URL}/api/admin/products`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -54,7 +58,7 @@ form.addEventListener('submit', async (e) => {
 
 async function fetchProducts() {
   try {
-    const res = await fetch('http://localhost:8000/api/products');
+    const res = await fetch(`${BASE_URL}/api/products`);
     const data = await res.json();
 
     productList.innerHTML = '';
@@ -76,7 +80,7 @@ async function deleteProduct(id) {
   if (!confirm('Are you sure you want to delete this product?')) return;
 
   try {
-    const res = await fetch(`http://localhost:8000/api/admin/products/${id}`, {
+    const res = await fetch(`${BASE_URL}/api/admin/products/${id}`, {
       method: 'DELETE',
       headers: { Authorization: `Bearer ${token}` }
     });

@@ -2,21 +2,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Your Cart | SwiftCart</title>
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/unified.css" />
 </head>
 <body>
-  <div class="container">
-    <h2>Your Cart</h2>
-    <div id="cartContainer">Loading...</div>
-    <h3 id="totalAmount"></h3>
-    <button onclick="goToProducts()">← Continue Shopping</button>
-    <button onclick="checkout()">Proceed to Checkout</button>
-    <button onclick="window.location.href='orders.html'">🧾 My Orders</button>
+  <div class="toggle-container">
+    <label class="switch">
+      <input type="checkbox" id="darkModeToggle" />
+      <span class="slider"></span>
+    </label>
   </div>
-  
-  <script type="module" src="cart.js"></script>
+
+  <div class="container">
+    <h2>Your Shopping Cart 🛍️</h2>
+    <div id="cartContainer">Loading...</div>
+
+    <h3 id="totalAmount" class="total-amount">Total: ₦0</h3>
+
+    <div class="button-group">
+      <button onclick="goToProducts()">← Continue Shopping</button>
+      <button onclick="checkout()">✅ Proceed to Checkout</button>
+    </div>
+  </div>
+
   <script src="https://js.paystack.co/v1/inline.js"></script>
+  <script type="module" src="cart.js"></script>
 </body>
 </html>
+

@@ -2,21 +2,30 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Product Details | SwiftCart</title>
-  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/unified.css">
 </head>
 <body>
   <div class="container">
-    <h2>Product Details</h2>
-    <div id="productDetails" class="product-detail-box">Loading...</div>
+
+    <div class="top-bar">
+      <button class="back-btn" onclick="window.location.href='products.html'">← Back to Products</button>
+      <label class="switch">
+        <input type="checkbox" id="darkModeToggle">
+        <span class="slider"></span>
+      </label>
+    </div>
+
+    <div id="productDetails" class="product-detail-box">Loading product...</div>
 
     <div class="button-group">
       <button onclick="goToCart()">🛒 View Cart</button>
-      <button onclick="goBack()">← Back to Products</button>
     </div>
+
   </div>
 
   <script type="module" src="product-details.js"></script>
 </body>
 </html>
-

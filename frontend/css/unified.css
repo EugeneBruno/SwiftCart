@@ -1,4 +1,11 @@
 /* unified.css - used across all SwiftCart frontend pages */
+* {
+  box-sizing: border-box;
+}
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
 :root {
   --bg: #ffffff;
   --text: #111;
@@ -14,11 +21,7 @@ body {
   background: var(--gradient);
   color: var(--text);
   min-height: 100vh;
-  padding: 0;
   transition: background 0.3s ease, color 0.3s ease;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
   padding: 1rem;
 }
 
@@ -36,26 +39,15 @@ body.dark input::placeholder {
   color: #ccc;
 }
 
-.container {
-  max-width: 900px; /* was 900px */
-  margin: auto;
-  padding: 1.5rem;
-  background: var(--bg);
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.05);
-  width: 100%;
-  animation: fadeIn 0.4s ease-in-out;
-}
-
-
- .form-box {
-  max-width: 1200px;
-  width: 100%;
+.container,
+.form-box {
+  max-width: 900px;
   margin: auto;
   padding: 1.5rem;
   background: var(--bg);
   border-radius: 12px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.07);
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  width: 100%;
   animation: fadeIn 0.4s ease-in-out;
 }
 
@@ -72,7 +64,6 @@ form {
 }
 
 input, textarea, button {
-  display: block;
   width: 100%;
   padding: 0.75rem;
   font-size: 1rem;
@@ -81,12 +72,6 @@ input, textarea, button {
   box-sizing: border-box;
   background: var(--card-bg);
   color: var(--text);
-  transition: 0.2s ease-in-out;
-}
-
-input:focus {
-  outline: none;
-  border-color: var(--button-bg);
 }
 
 button {
@@ -132,10 +117,6 @@ button:hover {
   min-height: 320px;
 }
 
-.product-card:hover {
-  transform: translateY(-5px);
-}
-
 .product-card img {
   width: 100%;
   aspect-ratio: 1 / 1;
@@ -153,34 +134,12 @@ button:hover {
   gap: 1rem;
 }
 
-#myOrdersBtn {
-  background-color: var(--button-bg);
-  color: var(--button-text);
-  padding: 10px 20px;
-  font-size: 0.95rem;
-  border-radius: 6px;
-  cursor: pointer;
-  border: none;
-  white-space: nowrap;
-}
-
 .button-group {
   display: flex;
   flex-direction: column;
   gap: 1rem;
   align-items: center;
   margin-top: 1.5rem;
-}
-
-.see-more {
-  text-align: center;
-  color: #007bff;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.category-section {
-  margin-bottom: 2.5rem;
 }
 
 .category-title {
@@ -197,46 +156,44 @@ button:hover {
   gap: 1rem;
   margin-bottom: 2rem;
 }
-/* 
-.product-row .product-card {
-  flex: 1 1 30%;
-  max-width: 30%;
-  min-width: 260px; */
-/* } */
 
-@media (max-width: 768px) {
-  .product-row .product-card {
-    flex: 0 1 calc(50% - 1rem);
-    max-width: calc(50% - 1rem);
-  }
-
-  .product-row {
-    grid-template-columns: repeat(2, 1fr);
-  }
+.see-more {
+  text-align: center;
+  color: #007bff;
+  font-weight: bold;
+  cursor: pointer;
 }
 
-@media (max-width: 480px) {
-    .product-row .product-card {
-    flex: 0 1 100%;
-    max-width: 100%;
-  }
-
-  .product-row {
-    grid-template-columns: 1fr;
-  }
-}
-
-.toggle-container {
+/* === Top bar with back button and toggle === */
+.top-bar {
   display: flex;
-  justify-content: flex-end;
-  margin: 1rem 0 0.5rem;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: nowrap;
+  margin-bottom: 1rem;
+  gap: 1rem;
+  padding: 0 1rem;
 }
 
+.back-btn {
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  padding: 10px 16px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  white-space: nowrap;
+  max-width: max-content;
+}
+
+/* Toggle switch */
 .switch {
   position: relative;
   display: inline-block;
-  width: 48px;
+  width: 46px;
   height: 24px;
+  flex-shrink: 0;
 }
 
 .switch input {
@@ -247,17 +204,15 @@ button:hover {
 
 .slider {
   position: absolute;
-  cursor: pointer;
-  top: 0; left: 0;
-  right: 0; bottom: 0;
+  top: 0; left: 0; right: 0; bottom: 0;
   background-color: #ccc;
   transition: 0.3s;
   border-radius: 24px;
 }
 
 .slider:before {
-  position: absolute;
   content: "";
+  position: absolute;
   height: 18px; width: 18px;
   left: 3px; bottom: 3px;
   background-color: white;
@@ -266,20 +221,21 @@ button:hover {
 }
 
 input:checked + .slider {
-  background-color: #2196f3;
+  background-color: #007bff;
 }
 
 input:checked + .slider:before {
-  transform: translateX(24px);
+  transform: translateX(22px);
 }
 
-.sticky-header {
-  position: sticky;
-  top: 0;
-  z-index: 99;
+.orders-box {
+  padding: 1.5rem;
+  max-width: 800px;
+  width: 100%;
+  margin: auto;
   background: var(--bg);
-  padding: 1rem 0;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.06);
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
 }
 
 #error {
@@ -288,22 +244,47 @@ input:checked + .slider:before {
   text-align: center;
 }
 
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .product-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .top-bar {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .orders-box {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-row {
+    grid-template-columns: 1fr;
+  }
+
+  .top-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+  }
+
+  .back-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  .switch {
+    align-self: flex-end;
+  }
+}
+
+/* Fade animation */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(30px); }
   to { opacity: 1; transform: translateY(0); }
-}
-
-@media (max-width: 600px) {
-  .container, .form-box {
-    padding: 1rem;
-  }
-
-  button {
-    font-size: 0.95rem;
-  }
-
-  .products-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
 }

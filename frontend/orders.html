@@ -1,17 +1,46 @@
+<!-- frontend/orders.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>My Orders | SwiftCart</title>
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" href="css/unified.css" />
 </head>
 <body>
-  <div class="container">
-    <h2>My Orders</h2>
-    <div id="ordersContainer">Loading...</div>
-    <button onclick="window.location.href='products.html'">← Back to Shop</button>
+ <div class="page-container">
+
+  <div class="top-bar">
+    <button class="back-btn" onclick="window.location.href='products.html'">← Back to Shop</button>
+    <label class="switch">
+      <input type="checkbox" id="darkModeToggle">
+      <span class="slider"></span>
+    </label>
   </div>
 
-  <script type="module" src="orders.js"></script>
+  <div class="orders-box">
+    <h2>My Orders 📦</h2>
+    <div id="ordersContainer">Loading...</div>
+  </div>  
+
+</div>
+
+
+  <script src="orders.js" type="module"></script>
+  <script>
+    const toggle = document.getElementById('darkModeToggle');
+    if (toggle) {
+      toggle.addEventListener('change', () => {
+        document.body.classList.toggle('dark');
+        localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+      });
+
+      if (localStorage.getItem('theme') === 'dark') {
+        document.body.classList.add('dark');
+        toggle.checked = true;
+      }
+    }
+  </script>
+
 </body>
 </html>
