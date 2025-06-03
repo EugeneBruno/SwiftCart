@@ -1,4 +1,5 @@
 // frontend/register.js
+import { BASE_URL }  from './config.js'
 const form = document.getElementById('registerForm');
 const password = document.getElementById('password');
 const confirmPassword = document.getElementById('confirmPassword');
@@ -36,7 +37,7 @@ form.addEventListener('submit', async (e) => {
   };
 
   try {
-    const res = await fetch('http://localhost:8000/api/auth/register', {
+    const res = await fetch(`${BASE_URL}/api/auth/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(userData)
@@ -44,8 +45,8 @@ form.addEventListener('submit', async (e) => {
 
     const data = await res.json();
     if (res.ok) {
+      localStorage.setItem('registeredEmail', userData.email)
       alert('Registration successful! Please check your email for the OTP.');
-      localStorage.setItem('email', userData.email); // Optional for verify page
       window.location.href = 'verify.html';
     } else {
       alert(data.message || 'Registration failed.');
@@ -65,3 +66,5 @@ function toggleVisibility(inputId, toggleIcon) {
     toggleIcon.textContent = '🙉';
   }
 }
+
+window.toggleVisibility = toggleVisibility;

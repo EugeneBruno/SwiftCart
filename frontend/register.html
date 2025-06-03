@@ -23,12 +23,12 @@
 
       <div class="input-icon">
         <input type="password" id="password" placeholder="Password" required />
-        <span class="toggle-password" onclick="toggleVisibility('password', this)">🙈</span>
+        <span class="toggle-password" onclick="toggleVisibility('password', this)">🙉</span>
       </div>
 
       <div class="input-icon">
         <input type="password" id="confirmPassword" placeholder="Confirm Password" required />
-        <span class="toggle-password" onclick="toggleVisibility('confirmPassword', this)">🙈</span>
+        <span class="toggle-password" onclick="toggleVisibility('confirmPassword', this)">🙉</span>
       </div>
 
 
@@ -45,11 +45,6 @@
   </div>
 
   <script>
-    function togglePassword(id) {
-      const input = document.getElementById(id);
-      input.type = input.type === 'password' ? 'text' : 'password';
-    }
-
     window.addEventListener('DOMContentLoaded', () => {
       const storedEmail = localStorage.getItem('registeredEmail');
       if (storedEmail) {
@@ -59,6 +54,6 @@
       }
     });
   </script>
-  <script src="register.js"></script>
+  <script src="register.js" type="module"></script>
 </body>
 </html>

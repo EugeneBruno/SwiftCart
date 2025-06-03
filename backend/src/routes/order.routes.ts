@@ -1,12 +1,12 @@
 import { Router, Request, Response } from 'express';
 import prisma from '../config/prisma';
 import { authenticate } from '../middleware/auth.middleware';
+import { sendOrderConfirmationEmail } from '../utils/sendEmail';
 
 const router = Router();
 
-// ✅ POST /api/orders - Create an order
 router.post('/', authenticate, async (req: Request, res: Response) => {
-  const { items } = req.body;
+  const { items, ref } = req.body;
   const userId = req.user?.id;
 
   if (!userId) {
@@ -28,8 +28,35 @@ router.post('/', authenticate, async (req: Request, res: Response) => {
           })),
         },
       },
-      include: { items: true },
+      include: {
+        items: {
+          include: {
+            product: true,
+          },
+        },
+      },
     });
+
+    // ✅ Fetch user info
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+
+    if (user?.email) {
+      try {
+        await sendOrderConfirmationEmail(
+          user.email,
+          user.firstName,
+          user.address,
+          order.items.map((item) => ({
+            name: item.product.name,
+            quantity: item.quantity,
+            price: item.product.price,
+          }))
+        );
+        console.log('✅ Order confirmation email sent to', user.email);
+      } catch (emailErr) {
+        console.error('❌ Failed to send order confirmation email:', emailErr);
+      }
+    }
 
     return res.status(201).json({ message: 'Order placed successfully', order });
   } catch (err) {
@@ -38,7 +65,6 @@ router.post('/', authenticate, async (req: Request, res: Response) => {
   }
 });
 
-// ✅ GET /api/orders - Fetch user’s order history
 router.get('/', authenticate, async (req: Request, res: Response) => {
   const userId = req.user?.id;
 
@@ -56,7 +82,7 @@ router.get('/', authenticate, async (req: Request, res: Response) => {
           },
         },
       },
-      orderBy: { createdAt: 'desc' },
+      orderBy: { createdAt: 'asc' },
     });
 
     return res.json({ orders });
@@ -67,4 +93,3 @@ router.get('/', authenticate, async (req: Request, res: Response) => {
 });
 
 export default router;
-

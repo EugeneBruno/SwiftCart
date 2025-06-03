@@ -1,7 +1,8 @@
 // frontend/verify.js
+import { BASE_URL }  from './config.js'
 const form = document.getElementById('verifyForm');
 const message = document.getElementById('message');
-const email = localStorage.getItem('registeredEmail');
+const email = localStorage.getItem('email');
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -13,7 +14,7 @@ form.addEventListener('submit', async (e) => {
   }
 
   try {
-    const res = await fetch('http://localhost:8000/api/auth/verify-otp', {
+    const res = await fetch(`${BASE_URL}/api/auth/verify-otp`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, otp }),
@@ -40,7 +41,7 @@ document.getElementById('resendBtn')?.addEventListener('click', async (e) => {
   e.preventDefault();
   if (!email) return alert('Email missing. Please register again.');
 
-  const res = await fetch('http://localhost:8000/api/auth/resend-otp', {
+  const res = await fetch(`${BASE_URL}/api/auth/resend-otp`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email }),
