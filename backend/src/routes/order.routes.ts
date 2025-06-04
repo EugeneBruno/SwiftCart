@@ -1,23 +1,26 @@
 import { Router, Request, Response } from 'express';
 import prisma from '../config/prisma';
-import { authenticate } from '../middleware/auth.middleware';
+import { authenticate, AuthenticatedRequest } from '../middleware/auth.middleware';
 import { sendOrderConfirmationEmail } from '../utils/sendEmail';
 
 const router = Router();
 
-router.post('/', authenticate, async (req: Request, res: Response) => {
-  const { items, ref } = req.body;
+router.post('/', authenticate, async (req: AuthenticatedRequest, res: Response): Promise<void> => {
+  const { items } = req.body;
   const userId = req.user?.id;
 
-  if (!userId) {
-    return res.status(401).json({ message: 'Unauthorized' });
-  }
-
-  if (!items || !Array.isArray(items)) {
-    return res.status(400).json({ message: 'Invalid items array' });
+  if (!userId || !items || !Array.isArray(items)) {
+    res.status(400).json({ message: 'Invalid request.' });
+    return;
   }
 
   try {
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    if (!user) {
+      res.status(404).json({ message: 'User not found.' });
+      return;
+    }
+
     const order = await prisma.order.create({
       data: {
         userId,
@@ -28,48 +31,28 @@ router.post('/', authenticate, async (req: Request, res: Response) => {
           })),
         },
       },
-      include: {
-        items: {
-          include: {
-            product: true,
-          },
-        },
-      },
+      include: { items: { include: { product: true } } },
     });
 
-    // ✅ Fetch user info
-    const user = await prisma.user.findUnique({ where: { id: userId } });
+    const formattedItems = order.items.map(i => ({
+      name: i.product.name,
+      price: i.product.price,
+      quantity: i.quantity,
+    }));
 
-    if (user?.email) {
-      try {
-        await sendOrderConfirmationEmail(
-          user.email,
-          user.firstName,
-          user.address,
-          order.items.map((item) => ({
-            name: item.product.name,
-            quantity: item.quantity,
-            price: item.product.price,
-          }))
-        );
-        console.log('✅ Order confirmation email sent to', user.email);
-      } catch (emailErr) {
-        console.error('❌ Failed to send order confirmation email:', emailErr);
-      }
-    }
-
-    return res.status(201).json({ message: 'Order placed successfully', order });
+    await sendOrderConfirmationEmail(user.email, user.username, formattedItems, user.address);
+    res.status(201).json({ message: 'Order placed successfully', order });
   } catch (err) {
-    console.error('Order creation error:', err);
-    return res.status(500).json({ message: 'Failed to place order' });
+    console.error('Order placed, but failed to send confirmation email:', err);
+    res.status(201).json({ message: 'Order placed, but failed to send confirmation email.' });
   }
 });
 
-router.get('/', authenticate, async (req: Request, res: Response) => {
+router.get('/', authenticate, async (req: AuthenticatedRequest, res: Response): Promise<void> => {
   const userId = req.user?.id;
-
   if (!userId) {
-    return res.status(401).json({ message: 'Unauthorized' });
+    res.status(401).json({ message: 'Unauthorized' });
+    return;
   }
 
   try {
@@ -77,18 +60,16 @@ router.get('/', authenticate, async (req: Request, res: Response) => {
       where: { userId },
       include: {
         items: {
-          include: {
-            product: true,
-          },
-        },
+          include: { product: true }
+        }
       },
-      orderBy: { createdAt: 'asc' },
+      orderBy: { createdAt: 'desc' },
     });
 
-    return res.json({ orders });
+    res.json({ orders });
   } catch (err) {
     console.error('Order fetch error:', err);
-    return res.status(500).json({ message: 'Failed to fetch orders' });
+    res.status(500).json({ message: 'Failed to fetch orders' });
   }
 });
 

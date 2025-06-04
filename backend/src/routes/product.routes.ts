@@ -1,11 +1,10 @@
 // src/routes/product.routes.ts
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 import prisma from '../config/prisma';
 
 const router = Router();
 
-// GET /api/products
-router.get('/', async (_req, res) => {
+router.get('/', async (_req: Request, res: Response): Promise<void> => {
   try {
     const products = await prisma.product.findMany();
     res.json({ products });
@@ -15,14 +14,14 @@ router.get('/', async (_req, res) => {
   }
 });
 
-// GET /api/products/:id
-router.get('/:id', async (req, res) => {
+router.get('/:id', async (req: Request, res: Response): Promise<void> => {
   try {
     const id = Number(req.params.id);
     const product = await prisma.product.findUnique({ where: { id } });
 
     if (!product) {
-      return res.status(404).json({ message: 'Product not found' });
+      res.status(404).json({ message: 'Product not found' });
+      return;
     }
 
     res.json({ product });
@@ -31,6 +30,5 @@ router.get('/:id', async (req, res) => {
     res.status(500).json({ message: 'Something went wrong' });
   }
 });
-
 
 export default router;

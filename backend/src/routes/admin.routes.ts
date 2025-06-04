@@ -1,53 +1,33 @@
-import { Router } from 'express';
-import prisma from '../config/prisma';
-import { authenticate } from '../middleware/auth.middleware';
+// src/routes/admin.routes.ts
+import { Router, Response } from 'express';
+import { authenticate, AuthenticatedRequest } from '../middleware/auth.middleware';
 import { isAdmin } from '../middleware/isAdmin';
+import prisma from '../config/prisma';
 
 const router = Router();
 
-// Create a product
-router.post('/products', authenticate, (req, res, next) => {
-  console.log('🧠 req.user from token:', req.user);
-  next();
-}, isAdmin, async (req, res) => {
-  const { name, price, description, imageUrl, category } = req.body;
-
-
-  if (!name || !price || !description || !category) {
-    return res.status(400).json({ message: 'Missing required fields' });
-  }
+router.post('/products', authenticate, isAdmin, async (req: AuthenticatedRequest, res: Response) => {
+  const { name, description, price, imageUrl, category } = req.body;
 
   try {
     const product = await prisma.product.create({
-      data: {
-        name,
-        price,
-        description,
-        imageUrl,
-        category
-      }
+      data: { name, description, price, imageUrl, category },
     });
-
-    res.status(201).json({ message: 'Product Added', product });
+    res.status(201).json({ product });
   } catch (err) {
-    console.error('Product create error:', err);
-    res.status(500).json({ message: 'Server error' });
+    console.error('Error creating product:', err);
+    res.status(500).json({ message: 'Failed to create product' });
   }
 });
 
-
-// Delete a product
-router.delete('/products/:id', authenticate, isAdmin, async (req, res) => {
-  const id = parseInt(req.params.id);
-
+router.delete('/products/:id', authenticate, isAdmin, async (req: AuthenticatedRequest, res: Response) => {
   try {
-    await prisma.product.delete({ where: { id } });
+    await prisma.product.delete({ where: { id: parseInt(req.params.id) } });
     res.json({ message: 'Product deleted' });
   } catch (err) {
-    console.error('Product delete error:', err);
-    res.status(500).json({ message: 'Could not delete product' });
+    console.error('Error deleting product:', err);
+    res.status(500).json({ message: 'Failed to delete product' });
   }
 });
-
 
 export default router;

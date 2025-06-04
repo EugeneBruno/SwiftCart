@@ -1,10 +1,11 @@
 // src/middleware/isAdmin.ts
-import { Request, Response, NextFunction } from 'express';
+import { Response, NextFunction } from 'express';
+import { AuthenticatedRequest } from './auth.middleware';
 
-export const isAdmin = (req: Request, res: Response, next: NextFunction) => {
+export const isAdmin = (req: AuthenticatedRequest, res: Response, next: NextFunction): void => {
   if (!req.user || req.user.isAdmin !== true) {
-    return res.status(403).json({ message: 'Access denied. Admins only.' });
+    res.status(403).json({ message: 'Access denied. Admin only.' });
+    return;
   }
   next();
 };
-
