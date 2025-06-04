@@ -3,13 +3,77 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Welcome to SwiftCart</title>
-  <link rel="stylesheet" href="css/unified.css" />
+  <title>Welcome | SwiftCart</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #dbeafe, #fdf2f8);
+      color: #111;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .landing-container {
+      background: #fff;
+      padding: 2rem;
+      max-width: 450px;
+      width: 90%;
+      border-radius: 10px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .landing-container h1 {
+      margin-bottom: 0.5rem;
+      font-size: 2rem;
+      color: #007bff;
+    }
+
+    .landing-container p {
+      margin-bottom: 1.5rem;
+      color: #333;
+    }
+
+    .landing-buttons a {
+      display: inline-block;
+      margin: 0.5rem;
+      padding: 0.75rem 1.5rem;
+      background: #007bff;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+
+    .landing-buttons a:hover {
+      background: #0056b3;
+    }
+
+    @media (max-width: 500px) {
+      .landing-container h1 {
+        font-size: 1.6rem;
+      }
+
+      .landing-buttons a {
+        width: 100%;
+        margin: 0.4rem 0;
+      }
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
+  <div class="landing-container">
     <h1>Welcome to SwiftCart 🛒</h1>
-    <p><a href="login.html">Login</a> or <a href="register.html">Register</a> to start shopping.</p>
+    <p>Your trusted eCommerce store for quality products.</p>
+    <div class="landing-buttons">
+      <a href="login.html">Login</a>
+      <a href="register.html">Register</a>
+    </div>
   </div>
 </body>
 </html>
