@@ -1,17 +1,13 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "main": "dist/server.js",
+  "main": "dist/index.js",
   "scripts": {
-    "dev": "ts-node-dev src/server.ts",
+    "dev": "ts-node-dev src/index.ts",
     "build": "tsc",
-    "start": "node dist/server.js",
+    "start": "npm run build && node dist/index.js",
     "generate": "prisma generate"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "dependencies": {
     "@prisma/client": "^5.15.0",
     "bcryptjs": "^3.0.2",
