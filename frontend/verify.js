@@ -2,7 +2,7 @@
 import { BASE_URL }  from './config.js'
 const form = document.getElementById('verifyForm');
 const message = document.getElementById('message');
-const email = localStorage.getItem('email');
+const email = localStorage.getItem('registeredEmail');
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
