@@ -1,13 +1,17 @@
+// tsconfig.json
 {
   "compilerOptions": {
     "target": "ES2020",
-    "module": "CommonJS",
-    "outDir": "dist",
+    "module": "commonjs",
+    "outDir": "dist",             // This ensures your build files go into /dist
+    "rootDir": "src",             // Your .ts source files live in /src
     "strict": true,
+    "moduleResolution": "node",
     "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
     "resolveJsonModule": true
   },
-  "include": ["src"],
+  "include": ["src"],             // Tells TypeScript to only compile the /src folder
   "exclude": ["node_modules"]
 }
