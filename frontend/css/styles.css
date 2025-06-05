@@ -278,6 +278,7 @@ input[type="text"] {
   justify-content: center;
   align-items: center;
   background: linear-gradient(to right, #1d2b64, #f8cdda);
+
 }
 
 .form-container {
@@ -289,6 +290,81 @@ input[type="text"] {
   width: 100%;
   animation: slideIn 0.5s ease-in-out;
 }
+
+
+/* .gradient-bg {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.form-container {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+} */
+
+.form-container h1 {
+  font-size: 28px;
+  color: #2c5364;
+  margin-bottom: 10px;
+}
+
+.tagline {
+  font-size: 16px;
+  margin-bottom: 30px;
+  color: #555;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.primary-btn, .secondary-btn {
+  padding: 12px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: background 0.3s ease;
+}
+
+.primary-btn {
+  background: #2c5364;
+  color: white;
+}
+
+.primary-btn:hover {
+  background: #1b3443;
+}
+
+.secondary-btn {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.secondary-btn:hover {
+  background: #e0e0e0;
+}
+
+@media (max-width: 480px) {
+  .form-container {
+    padding: 20px;
+  }
+  .form-container h1 {
+    font-size: 24px;
+  }
+}
+
 
 @keyframes slideIn {
   from {
@@ -343,6 +419,17 @@ input[type="text"] {
 }
 
 button[type="submit"] {
+  padding: 12px;
+  background-color: #1e3a8a;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button{
   padding: 12px;
   background-color: #1e3a8a;
   color: #fff;
