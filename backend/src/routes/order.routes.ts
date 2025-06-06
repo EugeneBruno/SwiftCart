@@ -77,7 +77,7 @@ router.get('/', authenticate, async (req, res) => {
           include: { product: true },
         },
       },
-      orderBy: { createdAt: 'desc' },
+      orderBy: { createdAt: 'asc' },
     });
 
     res.json({ orders });
