@@ -38,6 +38,12 @@ function checkout() {
   const token = localStorage.getItem('token');
   const totalAmount = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
+  if(!token){
+    alert('Session expired. Please login again.');
+    window.location.href = 'login.html';
+    return;
+  }
+
   if (!token || !email) {
     alert('You must be logged in and registered to checkout.');
     return window.location.href = 'login.html';
