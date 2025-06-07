@@ -1,6 +1,8 @@
 // src/routes/product.routes.ts
 import { Router, Request, Response } from 'express';
 import prisma from '../config/prisma';
+import { createReview, getProductReviews } from '../controllers/review.controller';
+import { authenticate } from '../middleware/auth.middleware';
 
 const router = Router();
 
@@ -30,5 +32,9 @@ router.get('/:id', async (req: Request, res: Response): Promise<void> => {
     res.status(500).json({ message: 'Something went wrong' });
   }
 });
+
+// Review routes
+router.post('/:productId/reviews', authenticate, createReview);
+router.get('/:productId/reviews', getProductReviews);
 
 export default router;

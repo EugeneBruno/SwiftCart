@@ -23,8 +23,32 @@
     <div class="button-group">
       <button onclick="goToCart()">🛒 View Cart</button>
     </div>
-
   </div>
+
+  <section id="reviewSection">
+    <h3>Leave a Review</h3>
+
+    <form id="reviewForm" class="styled-form" style="display: none;">
+      <div class="star-rating" id="starRating">
+        <span class="star" data-value="1">&#9734;</span>
+        <span class="star" data-value="2">&#9734;</span>
+        <span class="star" data-value="3">&#9734;</span>
+        <span class="star" data-value="4">&#9734;</span>
+        <span class="star" data-value="5">&#9734;</span>
+      </div>
+      <input type="hidden" id="rating" required>
+      <textarea id="comment" placeholder="Write your review..." required></textarea>
+      <button type="submit">Submit Review</button>
+      <p id="reviewMessage"></p>
+    </form>
+
+    <div id="reviewNotice" style="color: gray; font-size: 0.9rem;">You must have purchased this product to leave a review.</div>
+
+    <div id="reviewList">
+      <h4>Recent Reviews</h4>
+      <div id="reviewsContainer">Loading reviews...</div>
+    </div>
+  </section>
 
   <script type="module" src="product-details.js"></script>
 </body>

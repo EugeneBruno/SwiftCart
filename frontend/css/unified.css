@@ -317,6 +317,44 @@ input:checked + .slider:before {
   cursor: pointer;
 }
 
+#reviewForm {
+  margin-bottom: 2rem;
+}
+
+.star-rating {
+  direction: rtl;
+  font-size: 28px;
+  display: flex;
+  justify-content: flex-start;
+  gap: 5px;
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+.star-rating .star {
+  color: #ccc;
+  transition: color 0.2s;
+}
+
+.star-rating .star.selected {
+  color: gold;
+}
+
+textarea {
+  width: 100%;
+  min-height: 80px;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  resize: vertical;
+}
+
+#reviewsContainer .review {
+  border-bottom: 1px solid #eee;
+  padding: 0.5rem 0;
+}
+
 @media (max-width: 480px) {
   .product-grid {
     grid-template-columns: repeat(2, 1fr);
