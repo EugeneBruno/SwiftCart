@@ -25,6 +25,7 @@ model User {
   updatedAt  DateTime @updatedAt
 
   orders     Order[]
+  reviews    Review[]
 }
 
 model Product {
@@ -35,8 +36,22 @@ model Product {
   imageUrl    String?
   category    String      @default("Uncategorized")
   orderItems  OrderItem[]
+  reviews     Review[]
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
+}
+
+model Review {
+  id        Int      @id @default(autoincrement())
+  rating    Int      // 1 to 5
+  comment   String
+  userId    Int
+  productId Int
+  user      User     @relation(fields: [userId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id])
+  createdAt DateTime @default(now())
+
+  @@unique([userId, productId]) // Prevent multiple reviews from same user
 }
 
 model Order {

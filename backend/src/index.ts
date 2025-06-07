@@ -7,6 +7,7 @@ import productRoutes from './routes/product.routes';
 import orderRoutes from './routes/order.routes';
 import adminRoutes from './routes/admin.routes';
 import protectedRoutes from './routes/protected.routes';
+import reviewRoutes from './routes/review.routes';
 
 dotenv.config();
 const app = express();
@@ -23,6 +24,7 @@ app.use('/api/products', productRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/protected', protectedRoutes);
+app.use('/api/reviews', reviewRoutes);
 
 const PORT = process.env.PORT || 8000;
 app.listen(Number(PORT), '0.0.0.0', () => {
