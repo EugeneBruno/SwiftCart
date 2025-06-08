@@ -138,7 +138,7 @@ function fetchReviews() {
     .then(res => res.json())
     .then(data => {
       reviewsContainer.innerHTML = `
-        <p><strong>Average Rating:</strong> ${data.averageRating?.toFixed(1)} ⭐</p>
+        <p><strong>Overall Rating:</strong> ${data.averageRating?.toFixed(1)} ⭐</p>
         ${data.reviews.map(r => `
           <div class="review-box">
             <strong>@${r.user.username}</strong> - ${"★".repeat(r.rating)}<br/>
