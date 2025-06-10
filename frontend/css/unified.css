@@ -402,18 +402,19 @@ textarea {
   }
 
   .top-bar {
-    flex-direction: column;
-    align-items: stretch;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
     gap: 0.75rem;
   }
 
   .back-btn {
-    width: 100%;
+    flex: 1 1 auto;
     text-align: center;
   }
 
   .switch {
-    align-self: flex-end;
+    flex-shrink: 0;
   }
 }
 
