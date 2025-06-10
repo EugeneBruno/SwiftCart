@@ -189,10 +189,15 @@ button:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   margin-bottom: 1rem;
   gap: 1rem;
   padding: 0 1rem;
+}
+
+.top-bar button,
+.top-bar .switch {
+  margin: 0.5rem
 }
 
 .back-btn {
